@@ -73,7 +73,7 @@ Este projeto está licenciado sob a [MIT License](LICENSE).
 
 # CRUD in Django
 
-This is a Django project that implements a basic CRUD (Create, Read, Update, Delete) to manage a list of books.
+This is a Django project that implements a basic CRUD (Create, Read, Update, Delete) to manage a list of books using bootstrap.
 
 ## Features
 
