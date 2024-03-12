@@ -1,6 +1,11 @@
 from django.urls import path
-from django.urls.conf import include
+from .views import IndexView, CreateView, UpdateView, DeleteView , DetailView
 
 urlpatterns = [
-    path('index', class_view.index, name='index'),
+    path('', IndexView.as_view(), name='index'),
+    path('create/', CreateView.as_view(), name='create'),
+    path('update/<int:pk>/', UpdateView.as_view(), name='update'),
+    path('delete/<int:pk>/', DeleteView.as_view(), name='delete'),
+    path('detail/<int:pk>/', DetailView.as_view(), name='detail'),
 ]
+

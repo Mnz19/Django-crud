@@ -9,10 +9,11 @@ class Base(models.Model):
         abstract = True
 
 class Livro(Base):
+    id = models.AutoField(primary_key=True)
     titulo = models.CharField(max_length=100)
     autor = models.CharField(max_length=100)
     editora = models.CharField(max_length=100)
-    sinopse = models.TextField()
+    sinopse = models.TextField(null=True, blank=True)
 
     def __str__(self):
         return self.titulo

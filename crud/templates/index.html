@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+
+{% block title %}Meus livros{% endblock %}
+
+{% block content %}
+    <h1>Meus livros</h1>
+    <table class="table">
+        <thead>
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">Título</th>
+                <th scope="col">Autor</th>
+                <th scope="col">Lido</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for livro in livros %}
+                <tr>
+                    <th scope="row">{{ livro.id }}</th>
+                    <td><a href="{% url 'detail' pk=livro.pk %}" class="">{{ livro.titulo }}</a></td>
+                    <td>{{ livro.autor }}</td>
+                    <td> {% if livro.lido %}Sim{% else %}Não{% endif %} </td>
+                    <td>
+                        <a href="{% url 'update' pk=livro.pk %}" class="btn btn-primary">Editar</a>
+                        <a href="{% url 'delete' pk=livro.pk %}" class="btn btn-danger">Excluir</a>
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    <a href="{% url 'create' %}" class="btn btn-success">Adicionar</a>
+{% endblock %}
