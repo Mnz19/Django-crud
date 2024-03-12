@@ -1,6 +1,6 @@
 # CRUD em Django
 
-Este é um projeto Django que implementa um CRUD (Create, Read, Update, Delete) básico para gerenciar uma lista de livros.
+Este é um projeto Django que implementa um CRUD (Create, Read, Update, Delete) básico para gerenciar uma lista de livros utilizando bootstrap.
 
 ## Funcionalidades
 
