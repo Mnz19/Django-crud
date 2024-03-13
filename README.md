@@ -84,8 +84,8 @@ This is a Django project that implements a basic CRUD (Create, Read, Update, Del
 
 ## Requirements
 
-- Python 3.x
-- Django
+- Python 3.11.6
+- Django 4.2.11
 
 ## Setting Up Development Environment
 
