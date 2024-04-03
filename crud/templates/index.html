@@ -1,32 +1,33 @@
 {% extends 'base.html' %}
 
-{% block title %}Meus livros{% endblock %}
+{% block title %}Home{% endblock %}
 
 {% block content %}
-    <h1>Meus livros</h1>
+
+<!-- <h1>{{ usuario }}</h1> -->
+<h2 style="margin-top: 3vh;">Meus Exames</h2>
     <table class="table">
         <thead>
             <tr>
-                <th scope="col">#</th>
-                <th scope="col">Título</th>
-                <th scope="col">Autor</th>
-                <th scope="col">Lido</th>
+                <th scope="col">Nome do Exame</th>
+                <th scope="col">Data</th>
+                <th scope="col">Andamento</th>
             </tr>
         </thead>
         <tbody>
-            {% for livro in livros %}
+            {% for agendamento in agendamentos %}
                 <tr>
-                    <th scope="row">{{ livro.id }}</th>
-                    <td><a href="{% url 'detail' pk=livro.pk %}" class="">{{ livro.titulo }}</a></td>
-                    <td>{{ livro.autor }}</td>
-                    <td> {% if livro.lido %}Sim{% else %}Não{% endif %} </td>
+                    <th scope="row"><a href="{% url 'detail' pk=agendamento.pk %}" style="text-decoration: none; ">{{ agendamento.exame }}</a></th>
+                    <td>{{ agendamento.data|date:"d/m/Y" }} às {{ agendamento.horario}}</td>
+                    <td>{{ agendamento.andamento }}</td>
                     <td>
-                        <a href="{% url 'update' pk=livro.pk %}" class="btn btn-primary">Editar</a>
-                        <a href="{% url 'delete' pk=livro.pk %}" class="btn btn-danger">Excluir</a>
+                        <!-- <a href="{% url 'update' pk=agendamento.pk %}" class="btn btn-primary">Editar</a> -->
+                        <a href="{% url 'detail' pk=agendamento.pk %}" class="btn btn-primary ">Detalhes</a>
+                        <a href="{% url 'delete' pk=agendamento.pk %}" class="btn btn-danger ">Cancelar</a>
                     </td>
                 </tr>
             {% endfor %}
         </tbody>
     </table>
-    <a href="{% url 'create' %}" class="btn btn-success">Adicionar</a>
+    <a href="{% url 'create' %}" class="btn btn-success button">Agendar Exame</a>
 {% endblock %}

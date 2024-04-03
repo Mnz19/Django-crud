@@ -1,23 +1,21 @@
 from django import forms
-from .models import Livro
+from .models import AgendamentoExame
 from django.core.exceptions import ValidationError
+import datetime
 
-class LivroForm(forms.ModelForm):
-    class Meta:
-        model = Livro
-        fields = ['titulo', 'autor', 'editora', 'sinopse' ,'lido']
+class AgendamentoExameForm(forms.ModelForm):
     
-    def limpar(self):
-        limpar_dados = super().limpar()
-        titulo = limpar_dados.get('titulo')
-        autor = limpar_dados.get('autor')
-        editora = limpar_dados.get('editora')
-        sinopse = limpar_dados.get('sinopse')
-        lido = limpar_dados.get('lido')
-
-        if not (titulo and autor and editora and lido):
-            raise ValidationError("Todos os campos devem ser preenchidos.")
-
-        return limpar_dados
+    def clean(self):
+        data = self.cleaned_data.get('data')
+        if data < datetime.date.today():
+            raise ValidationError('Data inválida, Insira uma data futura')
+        return self.cleaned_data
+    
+    class Meta:
+        model = AgendamentoExame
+        fields = ['exame','data','horario']
+        widgets = {
+            'data': forms.DateInput(format=('%d/%m/%Y'),attrs={'class':'form-control','placeholder':'Select a date','type':'date'}),
+        }
     
     

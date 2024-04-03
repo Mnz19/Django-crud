@@ -1,8 +1,6 @@
 from django.contrib import admin
-from .models import Livro
+from .models import Exame, AgendamentoExame
 
-class LivroAdmin(admin.ModelAdmin):
-    list_display = ('titulo', 'autor', 'editora', 'lido')
-
-admin.site.register(Livro, LivroAdmin)
+admin.site.register(Exame)
+admin.site.register(AgendamentoExame)
 
