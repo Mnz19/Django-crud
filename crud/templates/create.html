@@ -4,11 +4,11 @@
 
 {% block content %}
 
-    <h1>Adicionar livro</h1>
-    <form method="POST">
+    <h1 style="margin: 4vh 0;">Agendar Exame</h1>
+    <form id="agendar-form" method="POST">
         {% csrf_token %}
         {{ form.as_p }}
-        <button type="submit" class="btn btn-primary">Adicionar</button>
+        <button type="submit" class="btn btn-primary">Agendar</button>
         <a href="{% url 'index' %}" class="btn btn-primary" >Voltar</a>
         <br>
     </form>
@@ -24,4 +24,25 @@
             </ul>
         </div>
     {% endif %}
+
+    <script>
+        document.getElementById('agendar-form').addEventListener('submit', function(e) {
+            event.preventDefault();
+            Swal.fire({
+                title: 'Confirmação',
+                text: 'Deseja realmente agendar este horário?',
+                icon: 'question',
+                showCancelButton: true,
+                confirmButtonText: 'Sim',
+                cancelButtonText: 'Não'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    this.submit();
+                } else {
+                    Swal.fire('Cancelado', '', 'info');
+                    event.preventDefault();
+                }
+            });
+        });
+    </script>
 {% endblock %}

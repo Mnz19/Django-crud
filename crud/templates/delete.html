@@ -9,7 +9,7 @@
         {% csrf_token %}
         <p>Tem certeza que deseja excluir o Exame "{{ agendamentos.exame }}"?</p>
         <a href="{% url 'index' %}" class="btn btn-primary" >Voltar</a>
-        <button type="submit" class="btn btn-danger">Cancelar exame</button>
+        <button type="submit" class="btn btn-danger">Cancelar</button>
     </form>
 
 {% endblock %}
