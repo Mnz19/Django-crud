@@ -4,30 +4,11 @@
 <html lang="pt-br">
 <head>
     <meta charset="UTF-8">
-    <title>{% block title %}Django CRUD{% endblock %}</title>
+    <title>{% block title %}Menezes'Labs{% endblock %}</title>
     <link rel="stylesheet" href="{% static 'styles.css' %}" />
     {% bootstrap_css %}
-    <!-- <style>
-      @import url('https://fonts.googleapis.com/css2?family=Raleway:ital,wght@0,100..900;1,100..900&display=swap');
-
-      *{
-        font-family: "Raleway", sans-serif;
-        font-optical-sizing: auto;
-        font-weight: 400;
-        font-style: normal;
-      }
-        .container {
-            margin-top: 20px;
-            height: 60vh;
-            width: 100vw;
-        }
-        select{
-            padding: 5px 4px;
-            min-width: 40%;
-        }
-    </style> -->
 </head>
-<body>
+<body style="min-height: 100vh;">
     {% include 'componentes/navbar.html' %}
     <div class="container">
         {% block content %}

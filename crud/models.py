@@ -45,6 +45,7 @@ class AgendamentoExame(Base):
     )
     horario = models.CharField(verbose_name ='Horário', max_length = 5 ,choices=HORARIO_CHOICES)
     andamento = models.CharField(verbose_name ='Andamento',max_length=30,choices=ANDAMENTO_CHOICES,default='Agendado')
+    resultado = models.FileField('Resultado',upload_to='pdfs/',null=True,blank=True)
     
     def __str__(self):
         data_formatada = self.data.strftime('%d/%m/%Y')
@@ -54,3 +55,5 @@ class AgendamentoExame(Base):
         verbose_name = 'Agendamento'
         verbose_name_plural = 'Agendamentos'
         ordering = ['data','horario']
+        
+        

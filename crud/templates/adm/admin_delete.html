@@ -1,15 +1,17 @@
 {% extends 'base.html' %}
 
-{% block title %}Excluir Exame{% endblock %}
+{% block title %}Administração{% endblock %}
 
 {% block content %}
 
-    <h1>Excluir Exame: {{ agendamentos.exame }}</h1>
     <form id="cancelar-form" method="POST">
         {% csrf_token %}
-        <p style="font-size: 3vh;">Tem certeza que deseja excluir o seu exame de {{ agendamentos.exame }} do dia {{agendamentos.data}} as {{agendamentos.horario}} ?</p>
+        <h1>Exame: {{ agendamentos.exame }}</h1>
+        <h2>Cliente: {{ agendamentos.usuario|capfirst }}</h2>
+        <h2>Data: {{ agendamentos.data }} ás {{agendamentos.horario}}</h2>
+        <p style="font-size: 3vh;">Tem certeza que deseja excluir este exame? ?</p>
         <a href="{% url 'index' %}" class="btn btn-primary" >Voltar</a>
-        <button type="submit" class="btn btn-danger">Cancelar</button>
+        <button type="submit" class="btn btn-danger">Excluir</button>
     </form>
 
 <script>
@@ -26,7 +28,7 @@
             if (result.isConfirmed) {
                 this.submit();
             } else {
-                Swal.fire('Exame não cancelado', '', 'info');
+                Swal.fire('Exame não excluído', '', 'info');
                 event.preventDefault();
             }
         });

@@ -10,29 +10,29 @@
 
 <div class="table-container" style="text-align: center;">
     <h2 style="margin-top: 3vh;">Meus Exames</h2>
-        <table class="table">
-            <thead>
+    <table class="table table-striped">
+        <thead class="thead-dark">
+            <tr>
+                <th scope="col"><strong>Nome do Exame</strong></th>
+                <!-- <th scope="col"><strong>Data de agend.</strong></th> -->
+                <th scope="col"><strong>Andamento</strong></th>
+                <th scope="col"><strong>Ações</strong></th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for agendamento in agendamentos %}
                 <tr>
-                    <th scope="col"><strong>Nome do Exame</strong></th>
-                    <th scope="col"><strong>Data de agend.</strong></th>
-                    <th scope="col"><strong>Andamento</strong></th>
+                    <td><a href="{% url 'detail' pk=agendamento.pk %}" class="text-decoration-none">{{ agendamento.exame }}</a></td>
+                    <!-- <td>{{ agendamento.data|date:"d/m/Y" }} às {{ agendamento.horario}}</td> -->
+                    <td>{{ agendamento.andamento }}</td>
+                    <td>
+                        <a href="{% url 'detail' pk=agendamento.pk %}" class="btn btn-primary btn-sm">Detalhes</a>
+                        <a href="{% url 'delete' pk=agendamento.pk %}" class="btn btn-danger btn-sm">Cancelar</a>
+                    </td>
                 </tr>
-            </thead>
-            <tbody>
-                {% for agendamento in agendamentos %}
-                    <tr>
-                        <th scope="row"><a href="{% url 'detail' pk=agendamento.pk %}" style="text-decoration: none; ">{{ agendamento.exame }}</a></th>
-                        <td>{{ agendamento.data|date:"d/m/Y" }} às {{ agendamento.horario}}</td>
-                        <td>{{ agendamento.andamento }}</td>
-                        <td>
-                            <!-- <a href="{% url 'update' pk=agendamento.pk %}" class="btn btn-primary">Editar</a> -->
-                            <a href="{% url 'detail' pk=agendamento.pk %}" class="btn btn-primary ">Detalhes</a>
-                            <a href="{% url 'delete' pk=agendamento.pk %}" class="btn btn-danger ">Cancelar</a>
-                        </td>
-                    </tr>
-                {% endfor %}
-            </tbody>
-        </table>
-        <a href="{% url 'create' %}" class="btn btn-success button">Agendar Exame</a>
+            {% endfor %}
+        </tbody>
+    </table>    
+    <a href="{% url 'create' %}" class="btn btn-success button">Agendar Exame</a>
 </div>
 {% endblock %}

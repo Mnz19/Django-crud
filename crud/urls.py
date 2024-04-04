@@ -1,6 +1,8 @@
 from django.urls import path
 from .views import IndexView, CreateView, UpdateView, DeleteView , DetailView
-from .views import AdminIndexView
+from .views import AdminIndexView, AdminUpdateView, AdminDeleteView
+from django.conf import settings
+from django.conf.urls.static import static
 
 urlpatterns = [
     path('', IndexView.as_view(), name='index'),
@@ -10,5 +12,8 @@ urlpatterns = [
     path('detail/<int:pk>/', DetailView.as_view(), name='detail'),  
     #Administração
     path('adm/', AdminIndexView.as_view(), name='admin'), 
-]
+    path('alterar/<int:pk>/', AdminUpdateView.as_view(), name='update_admin'),
+    path('excluir/<int:pk>/', AdminDeleteView.as_view(), name='delete_admin'),
+] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+
 
