@@ -1,9 +1,18 @@
 {% extends 'base.html'%}
 
-{% block title %}Adicionar livro{% endblock %}
+{% block title %}Agendar Exame{% endblock %}
+
+{% block extrahead %}
+    <style>
+        #id_exame, select{
+            padding: 5px 4px;
+            width: 40%;
+        }
+    </style>
+{% endblock %}
 
 {% block content %}
-
+<div class="create">
     <h1 style="margin: 4vh 0;">Agendar Exame</h1>
     <form id="agendar-form" method="POST">
         {% csrf_token %}
@@ -24,9 +33,7 @@
             </ul>
         </div>
     {% endif %}
-
-
-
+</div>
     <script>
         document.getElementById('agendar-form').addEventListener('submit', function(e) {
             event.preventDefault();

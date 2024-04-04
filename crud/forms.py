@@ -15,7 +15,8 @@ class AgendamentoExameForm(forms.ModelForm):
         model = AgendamentoExame
         fields = ['exame','data','horario']
         widgets = {
-            'data': forms.DateInput(format=('%d/%m/%Y'),attrs={'class':'form-control','placeholder':'Select a date','type':'date'}),
+            'data': forms.DateInput(format=('%d/%m/%Y'),attrs={'class':'form-floating','placeholder':'Select a date','type':'date'}),
+            
         }
     
     
