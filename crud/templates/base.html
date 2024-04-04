@@ -1,9 +1,11 @@
+{% load static %}
 {% load bootstrap5 %}
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
     <meta charset="UTF-8">
     <title>{% block title %}Django CRUD{% endblock %}</title>
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}" />
     {% bootstrap_css %}
     <style>
       @import url('https://fonts.googleapis.com/css2?family=Raleway:ital,wght@0,100..900;1,100..900&display=swap');

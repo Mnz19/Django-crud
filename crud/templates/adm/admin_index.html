@@ -1,0 +1,45 @@
+{% extends 'base.html' %}
+
+{% block title %}Administração{% endblock %}
+
+{% block content %}
+<main style="text-align: center;">
+    <h1 style="margin: 3vh;">Painel administrativo</h1>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-3">
+                <h2>Agendados</h2>
+                {% for cliente in agendado %}
+                    <div>
+                        <p>{{ cliente.usuario}} - {{ cliente.exame }}</p>    
+                    </div>
+                {% endfor %}
+            </div>
+            <div class="col-md-3">
+                <h2>Realizados</h2>
+                {% for cliente in realizado %}
+                    <div>
+                        <p>{{ cliente.usuario }} - {{ cliente.exame }}</p>
+                    </div>
+                {% endfor %}
+            </div>
+            <div class="col-md-3">
+                <h2>Enviado ao laboratório</h2>
+                {% for cliente in enviado %}
+                    <div>
+                        <p>{{ cliente.usuario }} - {{ cliente.exame }}</p>
+                    </div>
+                {% endfor %}
+            </div>
+            <div class="col-md-3">
+                <h2>Concluído</h2>
+                {% for cliente in concluido %}
+                    <div>
+                        <p>{{ cliente.usuario }} - {{ cliente.exame }}</p>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+</main>
+{% endblock %}

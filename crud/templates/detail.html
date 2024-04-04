@@ -9,7 +9,7 @@
         <p><strong>Nome do exame:</strong> {{ agendamentos.exame }}</p>
         <p><strong>Data:</strong> {{ agendamentos.data|date:"d/m/Y" }} às {{ agendamentos.horario}}h</p>
         <p><strong>Andamento:</strong> {{ agendamentos.andamento }}</p>
-        <p><strong>Data de Atualização:</strong> {{agendamentos.modificado|date:"d/m/Y H:i"}} </p>
+        <p><strong>Data de Atualização:</strong> {{agendamentos.modificado|date:"H:i, d/m/Y "}} </p>
         <!-- <a href="{% url 'update' pk=agendamentos.pk %}" class="btn btn-primary">Editar</a> -->
         <a href="{% url 'delete' pk=agendamentos.pk %}" class="btn btn-danger button">Cancelar</a>
         <a href="{% url 'index' %}" class="btn btn-primary button" >Voltar</a>

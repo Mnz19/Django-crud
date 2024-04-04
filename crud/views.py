@@ -1,8 +1,10 @@
 from django.views.generic import ListView, CreateView, UpdateView, DeleteView , DetailView
-from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from .models import AgendamentoExame
 from .forms import AgendamentoExameForm
 from django.urls import reverse_lazy
+
+
 
 class IndexView(LoginRequiredMixin, ListView):
     template_name = 'index.html'
@@ -79,5 +81,19 @@ class DeleteView(DeleteView):
         context['is_admin'] = self.request.user.is_superuser
         return context
     
+# A view administração
+
+class AdminIndexView(UserPassesTestMixin, ListView):
+    model = AgendamentoExame 
+    template_name = 'adm/admin_index.html'
+    def test_func(self):
+        return self.request.user.is_superuser
     
-   
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['agendado'] = AgendamentoExame.objects.filter(andamento='Agendado')
+        context['realizado'] =  AgendamentoExame.objects.filter(andamento='realizado')
+        context['enviado'] = AgendamentoExame.objects.filter(andamento='Enviado ao laboratório')
+        context['concluido'] = AgendamentoExame.objects.filter(andamento='Concluído')
+        context['cancelado'] = AgendamentoExame.objects.filter(andamento='Cancelado')
+        return context
