@@ -25,10 +25,15 @@
 
   .create select{
       padding: 7px 10px;
-      min-width: 34%;
+      width: 100%;
   }
 
   .create input[type="date"]{
       padding: 6px 10px;
-      min-width: 36%;
+      width: 100%;
+  }
+
+  .create label{
+        font-size: 2vh;
+        font-weight: bold;
   }
