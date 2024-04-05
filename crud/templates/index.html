@@ -7,32 +7,40 @@
 {% endblock %}
 
 {% block content %}
-
-<div class="table-container" style="text-align: center;">
-    <h2 style="margin-top: 3vh;">Meus Exames</h2>
-    <table class="table table-striped">
-        <thead class="thead-dark">
-            <tr>
-                <th scope="col"><strong>Nome do Exame</strong></th>
-                <!-- <th scope="col"><strong>Data de agend.</strong></th> -->
-                <th scope="col"><strong>Andamento</strong></th>
-                <th scope="col"><strong>Ações</strong></th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for agendamento in agendamentos %}
+{% if user.is_authenticated %}
+    <div class="table-container" style="text-align: center;">
+        <h2 style="margin-top: 3vh;">Meus Exames</h2>
+        <table class="table table-striped">
+            <thead class="thead-dark">
                 <tr>
-                    <td><a href="{% url 'detail' pk=agendamento.pk %}" class="text-decoration-none">{{ agendamento.exame }}</a></td>
-                    <!-- <td>{{ agendamento.data|date:"d/m/Y" }} às {{ agendamento.horario}}</td> -->
-                    <td>{{ agendamento.andamento }}</td>
-                    <td>
-                        <a href="{% url 'detail' pk=agendamento.pk %}" class="btn btn-primary btn-sm">Detalhes</a>
-                        <a href="{% url 'delete' pk=agendamento.pk %}" class="btn btn-danger btn-sm">Cancelar</a>
-                    </td>
+                    <th scope="col"><strong>Nome do Exame</strong></th>
+                    <!-- <th scope="col"><strong>Data de agend.</strong></th> -->
+                    <th scope="col"><strong>Andamento</strong></th>
+                    <th scope="col"><strong>Ações</strong></th>
                 </tr>
-            {% endfor %}
-        </tbody>
-    </table>    
-    <a href="{% url 'create' %}" class="btn btn-success button">Agendar Exame</a>
-</div>
+            </thead>
+            <tbody>
+                {% for agendamento in agendamentos %}
+                    <tr>
+                        <td><a href="{% url 'detail' pk=agendamento.pk %}" class="text-decoration-none">{{ agendamento.exame }}</a></td>
+                        <!-- <td>{{ agendamento.data|date:"d/m/Y" }} às {{ agendamento.horario}}</td> -->
+                        <td>{{ agendamento.andamento }}</td>
+                        <td>
+                            <a href="{% url 'detail' pk=agendamento.pk %}" class="btn btn-primary btn-sm">Detalhes</a>
+                            <a href="{% url 'delete' pk=agendamento.pk %}" class="btn btn-danger btn-sm">Cancelar</a>
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>    
+        <a href="{% url 'create' %}" class="btn btn-success button">Agendar Exame</a>
+    </div>
+{% else %}
+    <div class="container" style="text-align: center;">
+        <h2 style="margin-top: 3vh;">Bem-vindo ao Menezes' Labs</h2>
+        <p>Para agendar um exame, por favor, faça login.</p>
+        <a href="{% url 'account_login' %}" class="btn btn-primary button">Entrar</a>
+    </div>
+{% endif %}
 {% endblock %}
+

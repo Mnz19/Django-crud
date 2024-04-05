@@ -9,19 +9,31 @@
         <li class="nav-item">
           <a class="nav-link active" aria-current="page" href="{% url 'index' %}">Meus Exames</a>
         </li>
-        <li class="nav-item">
-          <a class="nav-link" href="{% url 'create' %}">Agendar Exame</a>
-        </li>
+        {% if user.is_authenticated %}
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'create' %}">Agendar Exame</a>
+          </li>
+        {% endif %}
         {% if is_admin == True %}
           <li class="nav-item">
             <a class="nav-link" href="{% url 'admin' %}">Administração</a>
           </li>
         {% endif %}
-        <li class="nav-item">
-          <a class="nav-link" href="#">Sair</a>
+        {% if user.is_authenticated %}
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'account_logout' %}">Sair</a>
+          </li>
+        {% endif %}
       </ul>
-      <span class="navbar-text text-light ms-auto" style="font-size: 1.3em;">
-        {{ usuario }}
+      {% if user.is_authenticated %}
+        <span class="navbar-text text-light ms-auto" style="font-size: 1.3em;">
+          {{ user|capfirst }}
+        </span>
+      {% else %}
+        <span class="navbar-text text-light ms-auto" style="font-size: 1.3em;">
+          <a class="nav-link" href="{% url 'account_login' %}">Entrar</a>
+        </span>
+      {% endif %}
       </span>
     </div>
   </div>

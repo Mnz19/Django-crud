@@ -1,0 +1,32 @@
+<!-- entrance.html -->
+{% extends "base.html" %}
+{% load allauth account %}
+
+{% block head_title %}
+    Entrar
+{% endblock head_title %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-4">
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="card-title text-center">Entrar</h3>
+                </div>
+                <div class="card-body text-center">
+                    <form method="post" class="form d-flex flex-column">
+                        {% csrf_token %}
+                        {{ form }}
+                        <div class="text-center"> 
+                            <button type="submit" class="btn btn-primary mt-2">Entrar</button>
+                        </div>
+                    </form>
+                    <hr>
+                    <p>Não tem uma conta? <a href="{% url 'account_signup' %}">Registre-se aqui</a>.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock content %}

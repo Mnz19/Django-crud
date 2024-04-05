@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+{% load allauth account %}
+
+{% block head_title %}
+    Sair
+{% endblock head_title %}
+
+{% block extrahead %}
+<style>
+    .helptext{
+        display: none;
+    }
+</style>
+{% endblock extrahead %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-5">
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="card-title text-center">Sair</h3>
+                </div>
+                <div class="card-body text-center">
+                    <form method="post" class="form">
+                        <p>Deseja realemte sair?</p>
+                        {% csrf_token %}
+                        {{ form.as_p }}
+                        <div class="text-center mt-3"> 
+                            <button type="submit" class="btn btn-danger">Sair</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock content %}

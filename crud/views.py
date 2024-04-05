@@ -1,23 +1,26 @@
-from django.db.models.query import QuerySet
 from django.views.generic import ListView, CreateView, UpdateView, DeleteView , DetailView
-from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
+from django.contrib.auth.mixins import UserPassesTestMixin
 from .models import AgendamentoExame
 from .forms import AgendamentoExameForm, AdminAgendamentoExameForm
 from django.urls import reverse_lazy
+from django.shortcuts import render
 
 
 
-class IndexView(LoginRequiredMixin, ListView):
+
+class IndexView(ListView):
     template_name = 'index.html'
     model = AgendamentoExame
     context_object_name = 'agendamentos'
     
     def get_queryset(self):
-        return AgendamentoExame.objects.filter(usuario=self.request.user, ativo=True)
+        query = 0
+        if self.request.user.is_authenticated:
+            query = AgendamentoExame.objects.filter(usuario=self.request.user, ativo=True)
+        return query
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['usuario'] = self.request.user.username.capitalize()
         context['is_admin'] = self.request.user.is_superuser
         return context
 
@@ -27,7 +30,6 @@ class DetailView(DetailView):
     context_object_name = 'agendamentos'
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['usuario'] = self.request.user.username.capitalize()
         context['is_admin'] = self.request.user.is_superuser
         return context
 
@@ -47,7 +49,6 @@ class CreateView(CreateView):
     
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['usuario'] = self.request.user.username.capitalize()
         context['is_admin'] = self.request.user.is_superuser
         return context
     
@@ -66,7 +67,6 @@ class UpdateView(UpdateView):
     
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['usuario'] = self.request.user.username.capitalize()
         context['is_admin'] = self.request.user.is_superuser
         return context
     
@@ -78,7 +78,6 @@ class DeleteView(DeleteView):
     
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['usuario'] = self.request.user.username.capitalize()
         context['is_admin'] = self.request.user.is_superuser
         return context
     
@@ -103,7 +102,6 @@ class AdminIndexView(UserPassesTestMixin, ListView):
     
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['usuario'] = self.request.user.username.capitalize()
         context['is_admin'] = self.request.user.is_superuser
         return context
 
@@ -126,7 +124,6 @@ class AdminUpdateView(UserPassesTestMixin, UpdateView):
     
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['usuario'] = self.request.user.username.capitalize()
         context['is_admin'] = self.request.user.is_superuser
         return context
     
@@ -141,6 +138,5 @@ class AdminDeleteView(UserPassesTestMixin, DeleteView):
     
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['usuario'] = self.request.user.username.capitalize()
         context['is_admin'] = self.request.user.is_superuser
         return context
