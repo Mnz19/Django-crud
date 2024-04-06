@@ -1,5 +1,5 @@
 from django import forms
-from .models import AgendamentoExame
+from .models import AgendamentoExame, Exame
 from django.core.exceptions import ValidationError
 from datetime import datetime
 from django.utils import timezone
@@ -40,4 +40,12 @@ class AdminAgendamentoExameForm(forms.ModelForm):
             'horario': forms.Select(attrs={'class': 'form-floating'}),
             'andamento': forms.Select(attrs={'class': 'form-floating'}),
             'resultado': forms.ClearableFileInput(attrs={'class': 'form-floating'}),
+        }
+
+class AdminExameForm(forms.ModelForm):
+    class Meta:
+        model = Exame
+        fields = ['nome']
+        widgets = {
+            'nome': forms.TextInput(attrs={'class': 'form-floating'}),
         }

@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+
+{% block title %}Home{% endblock %}
+
+{%block extrahead%}
+
+{% endblock %}
+
+{% block content %}
+    <div class="table-container" style="text-align: center;">
+        <h2 style="margin-top: 3vh;">Tipos de Exames</h2>
+        <table class="table table-striped">
+            <thead class="thead-dark">
+                <tr>
+                    <th scope="col"><strong>Nome do Exame</strong></th>
+                    <th scope="col"><strong>Ações</strong></th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for exame in exames %}
+                    <tr>
+                        <td>{{ exame.nome }}</td>
+                        <td>
+                            <a href="{% url 'exames_update_admin' pk=exame.pk %}" class="btn btn-primary btn-sm">Editar</a>
+                            <a href="{% url 'exames_delete_admin' pk=exame.pk %}" class="btn btn-danger btn-sm">Excluir</a>
+                        </td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+            <a href="{% url 'exames_create_admin' %}" class="btn btn-success button mb-4">Adicionar Exame</a>    
+            <a class="btn btn-primary mb-4" href="{% url 'admin' %}">Gerenciar Agendamentos</a>
+            <a class="btn btn-primary mb-4" href="{% url 'usuarios_admin' %}">Gerenciar Clientes</a>
+    </div>
+
+{% endblock %}
+

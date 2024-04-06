@@ -1,0 +1,48 @@
+{% extends 'base.html'%}
+
+{% block title %}Adicionar Exame{% endblock %}
+
+{% block content %}
+<div class="create">
+    <h1 style="margin: 4vh 0;">Adicionar Exame</h1>
+    <form id="agendar-form" method="POST">
+        {% csrf_token %}
+        {{form.as_p}}
+        <button type="submit" class="btn btn-primary">Adicionar</button>
+        <a href="{% url 'exames_admin' %}" class="btn btn-primary" >Voltar</a>
+        <br>
+    </form>
+    {% if form.errors %}
+        <div class="alert alert-danger">
+            <strong>Erro!</strong> Por favor, corrija os seguintes erros:
+            <ul>
+            {% for field, error_list in form.errors.items %}
+                {% for error in error_list %}
+                <li>{{ error }}</li>
+                {% endfor %}
+            {% endfor %}
+            </ul>
+        </div>
+    {% endif %}
+</div>
+    <script>
+        document.getElementById('agendar-form').addEventListener('submit', function(e) {
+            event.preventDefault();
+            Swal.fire({
+                title: 'Confirmação',
+                text: 'Deseja realmente agendar este horário?',
+                icon: 'question',
+                showCancelButton: true,
+                confirmButtonText: 'Sim',
+                cancelButtonText: 'Não'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    this.submit();
+                } else {
+                    Swal.fire('Cancelado', '', 'info');
+                    event.preventDefault();
+                }
+            });
+        });
+    </script>
+{% endblock %}

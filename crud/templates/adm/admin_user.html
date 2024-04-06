@@ -33,7 +33,7 @@
             <p><strong>Total de Agendamentos</strong>: {{ qtd_agentamentos }}</p>
             <p><strong>Usuários com Agendamentos</strong>: {{ qtd_user_agentamentos }}</p>
             <a class="btn btn-primary mb-4" href="{% url 'admin' %}">Gerenciar Agendamentos</a>
-            <a class="btn btn-primary mb-4" href="">Gerenciar Exames</a>
+            <a class="btn btn-primary mb-4" href="{% url 'exames_admin' %}">Gerenciar Exames</a>
         </div>
     </main>
     {% endblock %}

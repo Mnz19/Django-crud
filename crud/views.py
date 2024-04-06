@@ -1,8 +1,7 @@
-from django.db.models.query import QuerySet
 from django.views.generic import ListView, CreateView, UpdateView, DeleteView , DetailView
 from django.contrib.auth.mixins import UserPassesTestMixin
-from .models import AgendamentoExame , User
-from .forms import AgendamentoExameForm, AdminAgendamentoExameForm
+from .models import AgendamentoExame , User, Exame
+from .forms import AgendamentoExameForm, AdminAgendamentoExameForm, AdminExameForm
 from django.urls import reverse_lazy
 from django.db.models import Q
 
@@ -160,12 +159,62 @@ class AdminUserDetailView(UserPassesTestMixin, DetailView):
         return context
 
 class AdminExameView(UserPassesTestMixin, ListView):
-    model = AgendamentoExame
+    model = Exame
     template_name = 'adm/admin_exame.html'
-    context_object_name = 'agendamentos'
+    context_object_name = 'exames'
     
     def test_func(self):
         return self.request.user.is_superuser
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        return context
+
+class AdminExameCreateView(UserPassesTestMixin, CreateView):
+    model = Exame
+    template_name = 'adm/admin_exame_create.html'
+    form_class = AdminExameForm
+    success_url = reverse_lazy('exames_admin')
+    
+    def test_func(self):
+        return self.request.user.is_superuser
+    
+    def form_valid(self, form):
+        form.save()
+        return super().form_valid(form)
+    
+    def form_invalid(self, form):
+        return super().form_invalid(form)
+
+class AdminExameDeleteView(UserPassesTestMixin, DeleteView):
+    model = Exame
+    template_name = 'adm/admin_exame_delete.html'
+    context_object_name = 'exame'
+    success_url = reverse_lazy('exames_admin')
+    
+    def test_func(self):
+        return self.request.user.is_superuser
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        return context
+    
+class AdminExameUpdateView(UserPassesTestMixin, UpdateView):
+    model = Exame
+    template_name = 'adm/admin_exame_update.html'
+    form_class = AdminExameForm
+    context_object_name = 'exame'
+    success_url = reverse_lazy('exames_admin')
+    
+    def test_func(self):
+        return self.request.user.is_superuser
+    
+    def form_valid(self, form):
+        form.save()
+        return super().form_valid(form)
+    
+    def form_invalid(self, form):
+        return super().form_invalid(form)
     
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
