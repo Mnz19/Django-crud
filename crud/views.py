@@ -1,7 +1,7 @@
 from django.views.generic import ListView, CreateView, UpdateView, DeleteView , DetailView
 from django.contrib.auth.mixins import UserPassesTestMixin
 from .models import AgendamentoExame , User, Exame
-from .forms import AgendamentoExameForm, AdminAgendamentoExameForm, AdminExameForm
+from .forms import AgendamentoExameForm, AdminAgendamentoExameForm, AdminExameForm, AdminUserForm
 from django.urls import reverse_lazy
 from django.db.models import Q, Count
 
@@ -57,10 +57,7 @@ class DeleteView(DeleteView):
     model = AgendamentoExame
     context_object_name = 'agendamentos'
     success_url = reverse_lazy('index')
-    
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        return context
+
     
 # A view administração
 
@@ -122,8 +119,8 @@ class AdminUserView(UserPassesTestMixin, ListView):
         query = super().get_queryset().filter(is_superuser=False)
         filtro_usuario = self.request.GET.get('filtro_usuario')
         if filtro_usuario:
-            query = query.filter(Q(username__startswith=filtro_usuario))
-        
+            query = query.filter(username__startswith=filtro_usuario)
+            
         query = query.annotate(qtd_agentamentos=Count('agendamentoexame'))
         return query.order_by('-qtd_agentamentos')
     
@@ -142,6 +139,22 @@ class AdminUserView(UserPassesTestMixin, ListView):
         context['qtd_usuarios'] = self.get_queryset().count()
         context['qtd_user_agentamentos'] = usuarios_com_agendamentos.count()
         return context
+    
+class AdminUserCreateView(UserPassesTestMixin, CreateView):
+    model = User
+    template_name = 'adm/cliente/create.html'
+    form_class = AdminUserForm
+    success_url = reverse_lazy('usuarios_admin')
+    
+    def test_func(self):
+        return self.request.user.is_superuser
+    
+    def form_valid(self, form):
+        form.save()
+        return super().form_valid(form)
+    
+    def form_invalid(self, form):
+        return super().form_invalid(form)
 
 class AdminUserDetailView(UserPassesTestMixin, DetailView):
     model = User
@@ -161,6 +174,7 @@ class AdminUserDetailView(UserPassesTestMixin, DetailView):
             agendamentos = agendamentos.filter(andamento=filtro_andamento)
         if filtro_data:
             agendamentos = agendamentos.filter(data=filtro_data)
+        context['usuario_nome'] = usuario.username.capitalize()
         context['agendamentos'] = agendamentos 
         return context
 
@@ -171,10 +185,6 @@ class AdminExameView(UserPassesTestMixin, ListView):
     
     def test_func(self):
         return self.request.user.is_superuser
-    
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        return context
 
 class AdminExameCreateView(UserPassesTestMixin, CreateView):
     model = Exame
@@ -200,10 +210,7 @@ class AdminExameDeleteView(UserPassesTestMixin, DeleteView):
     
     def test_func(self):
         return self.request.user.is_superuser
-    
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        return context
+
     
 class AdminExameUpdateView(UserPassesTestMixin, UpdateView):
     model = Exame
@@ -222,6 +229,3 @@ class AdminExameUpdateView(UserPassesTestMixin, UpdateView):
     def form_invalid(self, form):
         return super().form_invalid(form)
     
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        return context

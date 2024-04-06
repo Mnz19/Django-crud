@@ -1,6 +1,6 @@
 from django.urls import path
 from .views import IndexView, CreateView, UpdateView, DeleteView , DetailView
-from .views import AdminIndexView, AdminUpdateView, AdminDeleteView, AdminUserView, AdminUserDetailView, AdminExameView, AdminExameCreateView, AdminExameDeleteView, AdminExameUpdateView
+from .views import AdminIndexView, AdminUpdateView, AdminDeleteView, AdminUserView, AdminUserDetailView, AdminExameView, AdminExameCreateView, AdminExameDeleteView, AdminExameUpdateView, AdminUserCreateView
 from django.conf import settings
 from django.conf.urls.static import static
 
@@ -15,6 +15,7 @@ urlpatterns = [
     path('alterar/<int:pk>/', AdminUpdateView.as_view(), name='update_admin'),
     path('excluir/<int:pk>/', AdminDeleteView.as_view(), name='delete_admin'),
     path('usuarios-admin/', AdminUserView.as_view(), name='usuarios_admin'),
+    path('usuarios-admin/create/', AdminUserCreateView.as_view(), name='usuarios_create_admin'),
     path('usuarios/<int:pk>/', AdminUserDetailView.as_view(), name='usuario_detail_admin'),
     path('exames-admin/', AdminExameView.as_view(), name='exames_admin'),
     path('exames-admin/create/', AdminExameCreateView.as_view(), name='exames_create_admin'),

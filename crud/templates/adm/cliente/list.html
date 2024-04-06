@@ -2,7 +2,7 @@
 
 {% block content %}
 <main style="text-align: center;">
-    <h1 class="mt-1">Painel administrativo</h1>
+    <h1 class="mt-1">Clientes</h1>
     <div class="container mt-3 ">
         <form class="mb-3" method="get" action="">
             <div class="input-group">
@@ -27,11 +27,13 @@
                         <a href="{% url 'usuario_detail_admin' pk=usuario.pk %}" class="btn btn-primary btn-sm">Vizualizar</a>
                     </tr>
                     {% endfor %}
+                    
                 </tbody>
             </table>
             <p><strong>Total de Usuários</strong>: {{ qtd_usuarios }}</p>
             <p><strong>Total de Agendamentos</strong>: {{ qtd_agentamentos }}</p>
             <p><strong>Usuários com Agendamentos</strong>: {{ qtd_user_agentamentos }}</p>
+            <a href="{% url 'usuarios_create_admin' %}" class="btn btn-success button mb-4">Adicionar Exame</a>    
             <a class="btn btn-primary mb-4" href="{% url 'admin' %}">Gerenciar Agendamentos</a>
             <a class="btn btn-primary mb-4" href="{% url 'exames_admin' %}">Gerenciar Exames</a>
         </div>

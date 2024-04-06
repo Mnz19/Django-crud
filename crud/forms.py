@@ -3,6 +3,7 @@ from .models import AgendamentoExame, Exame
 from django.core.exceptions import ValidationError
 from datetime import datetime
 from django.utils import timezone
+from django.contrib.auth.models import User
 
 
 
@@ -18,7 +19,7 @@ class AgendamentoExameForm(forms.ModelForm):
         
         if data == timezone.now().date() and horario_time <= timezone.now().time():
             raise ValidationError('Horário inválido, Insira um horário futuro')
-        
+    
         return self.cleaned_data
     
     class Meta:
@@ -31,6 +32,15 @@ class AgendamentoExameForm(forms.ModelForm):
         }
     
 class AdminAgendamentoExameForm(forms.ModelForm):
+    def clean(self):
+        andamento = self.cleaned_data.get('andamento')
+        
+        if andamento == 'Concluído':
+            resultado = self.cleaned_data.get('resultado')  
+            if not resultado:
+                raise ValidationError('Insira um arquivo de resultado')
+        
+        return self.cleaned_data
     class Meta:
         model = AgendamentoExame
         fields = ['exame','data','horario','andamento','resultado']
@@ -48,4 +58,17 @@ class AdminExameForm(forms.ModelForm):
         fields = ['nome']
         widgets = {
             'nome': forms.TextInput(attrs={'class': 'form-floating'}),
+        }
+        
+class AdminUserForm(forms.ModelForm):
+    class Meta:
+        model = User
+        fields = ['username','first_name','last_name','email','is_staff','is_active']
+        widgets = {
+            'username': forms.TextInput(attrs={'class': 'form-floating'}),
+            'first_name': forms.TextInput(attrs={'class': 'form-floating'}),
+            'last_name': forms.TextInput(attrs={'class': 'form-floating'}),
+            'email': forms.EmailInput(attrs={'class': 'form-floating'}),
+            'is_staff': forms.CheckboxInput(attrs={'class': 'form-check-input'}),
+            'is_active': forms.CheckboxInput(attrs={'class': 'form-check-input'}),
         }
