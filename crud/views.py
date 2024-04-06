@@ -164,9 +164,6 @@ class AdminExameView(UserPassesTestMixin, ListView):
     template_name = 'adm/admin_exame.html'
     context_object_name = 'agendamentos'
     
-    def get_queryset(self):
-
-    
     def test_func(self):
         return self.request.user.is_superuser
     
