@@ -65,7 +65,7 @@ class DeleteView(DeleteView):
 
 class AdminIndexView(UserPassesTestMixin, ListView):
     model = AgendamentoExame 
-    template_name = 'adm/admin_index.html'
+    template_name = 'adm/agendamento/list.html'
     context_object_name = 'agendamentos'
     def test_func(self):
         return self.request.user.is_superuser
@@ -82,7 +82,7 @@ class AdminIndexView(UserPassesTestMixin, ListView):
 
 
 class AdminUpdateView(UserPassesTestMixin, UpdateView):
-    template_name = 'adm/admin_update.html'
+    template_name = 'adm/agendamento/update.html'
     model = AgendamentoExame
     form_class = AdminAgendamentoExameForm
     context_object_name = 'agendamentos'
@@ -103,7 +103,7 @@ class AdminUpdateView(UserPassesTestMixin, UpdateView):
         return context
     
 class AdminDeleteView(UserPassesTestMixin, DeleteView):
-    template_name = 'adm/admin_delete.html'
+    template_name = 'adm/agendamento/delete.html'
     model = AgendamentoExame
     context_object_name = 'agendamentos'
     success_url = reverse_lazy('admin')
@@ -117,7 +117,7 @@ class AdminDeleteView(UserPassesTestMixin, DeleteView):
     
 class AdminUserView(UserPassesTestMixin, ListView):
     model = User
-    template_name = 'adm/admin_user.html'
+    template_name = 'adm/cliente/list.html'
     context_object_name = 'usuarios'
     
     def get_queryset(self):
@@ -139,7 +139,7 @@ class AdminUserView(UserPassesTestMixin, ListView):
 
 class AdminUserDetailView(UserPassesTestMixin, DetailView):
     model = User
-    template_name = 'adm/admin_user_detail.html'
+    template_name = 'adm/cliente/detail.html'
     context_object_name = 'usuario'
     
     def test_func(self):
@@ -160,7 +160,7 @@ class AdminUserDetailView(UserPassesTestMixin, DetailView):
 
 class AdminExameView(UserPassesTestMixin, ListView):
     model = Exame
-    template_name = 'adm/admin_exame.html'
+    template_name = 'adm/exame/list.html'
     context_object_name = 'exames'
     
     def test_func(self):
@@ -172,7 +172,7 @@ class AdminExameView(UserPassesTestMixin, ListView):
 
 class AdminExameCreateView(UserPassesTestMixin, CreateView):
     model = Exame
-    template_name = 'adm/admin_exame_create.html'
+    template_name = 'adm/exame/create.html'
     form_class = AdminExameForm
     success_url = reverse_lazy('exames_admin')
     
@@ -188,7 +188,7 @@ class AdminExameCreateView(UserPassesTestMixin, CreateView):
 
 class AdminExameDeleteView(UserPassesTestMixin, DeleteView):
     model = Exame
-    template_name = 'adm/admin_exame_delete.html'
+    template_name = 'adm/exame/delete.html'
     context_object_name = 'exame'
     success_url = reverse_lazy('exames_admin')
     
@@ -201,7 +201,7 @@ class AdminExameDeleteView(UserPassesTestMixin, DeleteView):
     
 class AdminExameUpdateView(UserPassesTestMixin, UpdateView):
     model = Exame
-    template_name = 'adm/admin_exame_update.html'
+    template_name = 'adm/exame/update.html'
     form_class = AdminExameForm
     context_object_name = 'exame'
     success_url = reverse_lazy('exames_admin')
