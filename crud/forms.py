@@ -15,10 +15,10 @@ class AgendamentoExameForm(forms.ModelForm):
         horario_time = datetime.strptime(horario, '%H:%M').time()
 
         if data < datetime.today().date():
-            raise ValidationError('Data inválida, Insira uma data futura')
+            raise ValidationError('Data inválida, Insira uma data válida')
         
         if data == timezone.now().date() and horario_time <= timezone.now().time():
-            raise ValidationError('Horário inválido, Insira um horário futuro')
+            raise ValidationError('Horário inválido, Insira um horário válido')
     
         return self.cleaned_data
     
