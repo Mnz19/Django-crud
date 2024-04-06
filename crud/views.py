@@ -3,7 +3,8 @@ from django.contrib.auth.mixins import UserPassesTestMixin
 from .models import AgendamentoExame , User, Exame
 from .forms import AgendamentoExameForm, AdminAgendamentoExameForm, AdminExameForm
 from django.urls import reverse_lazy
-from django.db.models import Q
+from django.db.models import Q, Count
+
 
 
 class IndexView(ListView):
@@ -79,6 +80,11 @@ class AdminIndexView(UserPassesTestMixin, ListView):
         if filtro_data:
             queryset = queryset.filter(data=filtro_data)
         return queryset
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['qtd_agentamentos'] = self.get_queryset().count()
+        return context
 
 
 class AdminUpdateView(UserPassesTestMixin, UpdateView):
@@ -98,10 +104,6 @@ class AdminUpdateView(UserPassesTestMixin, UpdateView):
     def form_invalid(self, form):
         return super().form_invalid(form)
     
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        return context
-    
 class AdminDeleteView(UserPassesTestMixin, DeleteView):
     template_name = 'adm/agendamento/delete.html'
     model = AgendamentoExame
@@ -110,10 +112,6 @@ class AdminDeleteView(UserPassesTestMixin, DeleteView):
         
     def test_func(self):
         return self.request.user.is_superuser
-    
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        return context
     
 class AdminUserView(UserPassesTestMixin, ListView):
     model = User
@@ -125,16 +123,24 @@ class AdminUserView(UserPassesTestMixin, ListView):
         filtro_usuario = self.request.GET.get('filtro_usuario')
         if filtro_usuario:
             query = query.filter(Q(username__startswith=filtro_usuario))
-        return query.order_by('username')
+        
+        query = query.annotate(qtd_agentamentos=Count('agendamentoexame'))
+        return query.order_by('-qtd_agentamentos')
     
     def test_func(self):
         return self.request.user.is_superuser
     
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['qtd_agentamentos'] = AgendamentoExame.objects.count() 
-        context['qtd_usuarios'] = User.objects.filter(is_superuser=False).count()
-        context['qtd_user_agentamentos'] = AgendamentoExame.objects.values('usuario').distinct().count()
+        
+        usuarios = self.get_queryset().annotate(qtd_agentamentos=Count('agendamentoexame'))
+        usuarios_com_agendamentos = usuarios.filter(qtd_agentamentos__gt=0)
+        
+        qtd_agentamentos_total = self.get_queryset().aggregate(qtd_agentamentos=Count('agendamentoexame'))
+        
+        context['qtd_agentamentos'] = qtd_agentamentos_total['qtd_agentamentos']
+        context['qtd_usuarios'] = self.get_queryset().count()
+        context['qtd_user_agentamentos'] = usuarios_com_agendamentos.count()
         return context
 
 class AdminUserDetailView(UserPassesTestMixin, DetailView):
