@@ -1,15 +1,15 @@
 {% extends 'base.html'%}
 
-{% block title %}Agendar Exame{% endblock %}
+{% block title %}Editar Exame{% endblock %}
 
 {% block content %}
 <div class="create">
-    <h1 style="margin: 4vh 0;">Agendar Exame</h1>
+    <h1 style="margin: 4vh 0;">Editar Exame</h1>
     <form id="agendar-form" method="POST">
         {% csrf_token %}
         {{form.as_p}}
-        <button type="submit" class="btn btn-primary">Agendar</button>
-        <a href="{% url 'index' %}" class="btn btn-primary" >Voltar</a>
+        <button type="submit" class="btn btn-primary">Editar</button>
+        <a href="{% url 'exames_admin' %}" class="btn btn-primary" >Voltar</a>
         <br>
     </form>
     {% if form.errors %}

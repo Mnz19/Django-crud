@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+
+{% block content %}
+<main style="text-align: center;">
+    <h1 class="mt-1">Painel administrativo</h1>
+    <div class="container mt-3 ">
+        <form class="mb-3" method="get" action="">
+            <div class="input-group">
+                <input class="form-control" type="text" name="filtro_usuario" placeholder="Pesquisar">
+                <button class="btn btn-primary" type="submit">Filtrar</button>
+            </div>
+        </form>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Cliente</th>
+                    <th>Quantidade de Exames</th>
+                    <th>Açoes</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for usuario in usuarios %}
+                <tr>
+                    <td>{{ usuario|capfirst }}</td>
+                    <td>{{ usuario.agendamentoexame_set.count }}</td>
+                    <td>
+                        <a href="{% url 'usuario_detail_admin' pk=usuario.pk %}" class="btn btn-primary btn-sm">Vizualizar</a>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            <p><strong>Total de Usuários</strong>: {{ qtd_usuarios }}</p>
+            <p><strong>Total de Agendamentos</strong>: {{ qtd_agentamentos }}</p>
+            <p><strong>Usuários com Agendamentos</strong>: {{ qtd_user_agentamentos }}</p>
+            <a class="btn btn-primary mb-4" href="{% url 'admin' %}">Gerenciar Agendamentos</a>
+            <a class="btn btn-primary mb-4" href="{% url 'exames_admin' %}">Gerenciar Exames</a>
+        </div>
+    </main>
+    {% endblock %}
+    

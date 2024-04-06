@@ -4,12 +4,12 @@
 
 {% block content %}
 
-    <h1>Excluir Exame: {{ agendamentos.exame }}</h1>
+    <h1>Excluir Exame: {{ exame }}</h1>
     <form id="cancelar-form" method="POST">
         {% csrf_token %}
-        <p style="font-size: 3vh;">Tem certeza que deseja excluir o seu exame de {{ agendamentos.exame }} do dia {{agendamentos.data}} as {{agendamentos.horario}} ?</p>
-        <a href="{% url 'index' %}" class="btn btn-primary" >Voltar</a>
-        <button type="submit" class="btn btn-danger">Cancelar</button>
+        <p style="font-size: 3vh;">Tem certeza que deseja excluir o seu exame de {{ exame }} ?</p>
+        <a href="{% url 'exames_admin' %}" class="btn btn-primary" >Voltar</a>
+        <button type="submit" class="btn btn-danger">Excluir</button>
     </form>
 
 <script>
@@ -17,7 +17,7 @@
         event.preventDefault();
         Swal.fire({
             title: 'Confirmação',
-            text: 'Deseja realmente cancelar este agendamento?',
+            text: 'Deseja realmente cancelar este exame?',
             icon: 'warning',
             showCancelButton: true,
             confirmButtonText: 'Sim',

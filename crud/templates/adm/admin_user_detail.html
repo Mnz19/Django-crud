@@ -1,0 +1,60 @@
+{% extends 'base.html' %}
+
+{% block title %}Administração{% endblock %}
+
+{% block content %}
+<main style="text-align: center;">
+    <h1 class="mt-1">Painel administrativo</h1>
+    <div class="container mt-3 ">
+        <form class="mb-3" method="get" action="">
+            <div class="form-row" style="display: flex; gap:20px; justify-content: center;">
+                <div class="col-md-4 mb-3">
+                    <label for="filtro_andamento">Filtrar por Andamento:</label>
+                    <select class="form-control" name="filtro_andamento" id="filtro_andamento">
+                        <option value="">Todos</option>
+                        <option value="Agendado">Agendado</option>
+                        <option value="Realizado">Realizado</option>
+                        <option value="Enviado ao laboratório">Enviado ao laboratório</option>
+                        <option value="Concluído">Concluído</option>
+                        <option value="Cancelado">Cancelado</option>
+                    </select>
+                </div>
+                <div class="col-md-4 mb-3">
+                    <label for="filtro_data">Filtrar por Data:</label>
+                    <input type="date" class="form-control" name="filtro_data" id="filtro_data">
+                </div>
+            </div>
+            <button type="submit" class="btn btn-primary">Filtrar</button>
+        </form>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Cliente</th>
+                    <th>Exame</th>
+                    <th>Data</th>
+                    <th>Hora</th>
+                    <th>Andamento</th>
+                    <th>Açoes</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for agendamento in agendamentos %}
+                <tr>
+                    <td>{{ agendamento.usuario|capfirst }}</td>
+                    <td>{{ agendamento.exame }}</td>
+                    <td>{{ agendamento.data }}</td>
+                    <td>{{ agendamento.horario }}</td>
+                    <td>{{ agendamento.andamento }}</td>
+                    <td>
+                        <a href="{% url 'update_admin' pk=agendamento.pk %}" class="btn btn-primary btn-sm">Alterar</a>
+                        <a href="{% url 'delete_admin' pk=agendamento.pk %}" class="btn btn-danger btn-sm">Excluir</a>
+                    </td> 
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        <a class="btn btn-primary mb-4" href="{% url 'usuarios_admin' %}">Gerenciar Clientes</a>
+        <a class="btn btn-primary mb-4" href="">Gerenciar Exames</a>
+    </div>
+</main>
+{% endblock %}

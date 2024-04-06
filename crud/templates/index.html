@@ -7,32 +7,48 @@
 {% endblock %}
 
 {% block content %}
-
-<div class="table-container" style="text-align: center;">
-    <h2 style="margin-top: 3vh;">Meus Exames</h2>
-        <table class="table">
-            <thead>
+{% if user.is_authenticated and user.is_superuser == False %}
+    <div class="table-container" style="text-align: center;">
+        <h2 style="margin-top: 3vh;">Meus Exames</h2>
+        <table class="table table-striped">
+            <thead class="thead-dark">
                 <tr>
                     <th scope="col"><strong>Nome do Exame</strong></th>
-                    <th scope="col"><strong>Data</strong></th>
+                    <!-- <th scope="col"><strong>Data de agend.</strong></th> -->
                     <th scope="col"><strong>Andamento</strong></th>
+                    <th scope="col"><strong>Ações</strong></th>
                 </tr>
             </thead>
             <tbody>
                 {% for agendamento in agendamentos %}
                     <tr>
-                        <th scope="row"><a href="{% url 'detail' pk=agendamento.pk %}" style="text-decoration: none; ">{{ agendamento.exame }}</a></th>
-                        <td>{{ agendamento.data|date:"d/m/Y" }} às {{ agendamento.horario}}</td>
+                        <td><a href="{% url 'detail' pk=agendamento.pk %}" class="text-decoration-none">{{ agendamento.exame }}</a></td>
+                        <!-- <td>{{ agendamento.data|date:"d/m/Y" }} às {{ agendamento.horario}}</td> -->
                         <td>{{ agendamento.andamento }}</td>
                         <td>
-                            <!-- <a href="{% url 'update' pk=agendamento.pk %}" class="btn btn-primary">Editar</a> -->
-                            <a href="{% url 'detail' pk=agendamento.pk %}" class="btn btn-primary ">Detalhes</a>
-                            <a href="{% url 'delete' pk=agendamento.pk %}" class="btn btn-danger ">Cancelar</a>
+                            <a href="{% url 'detail' pk=agendamento.pk %}" class="btn btn-primary btn-sm">Detalhes</a>
+                            <a href="{% url 'delete' pk=agendamento.pk %}" class="btn btn-danger btn-sm">Cancelar</a>
                         </td>
                     </tr>
-                {% endfor %}
-            </tbody>
-        </table>
-        <a href="{% url 'create' %}" class="btn btn-success button">Agendar Exame</a>
-</div>
+                    {% endfor %}
+                </tbody>
+            </table>    
+            <a href="{% url 'create' %}" class="btn btn-success button">Agendar Exame</a>
+        </div>
+{% elif user.is_superuser %}
+    <div class="container text-center mt-5">
+        <h2>Menu Administrativo</h2>
+        <a href="{% url 'usuarios_admin' %}" class="btn btn-primary button mt-5">Clientes</a>
+        <a href="{% url 'admin' %}" class="btn btn-primary button mt-5">Agendamentos</a>
+        <a href="{% url 'exames_admin' %}" class="btn btn-primary button mt-5">Exames</a>
+    </div>
+
+{% else %}
+    <div class="container" style="text-align: center;">
+        <h2 style="margin-top: 3vh;">Bem-vindo ao Menezes' Labs</h2>
+        <p>Para agendar um exame, por favor, faça login.</p>
+        <a href="{% url 'account_login' %}" class="btn btn-primary button">Entrar</a>
+    </div>
+{% endif %}
 {% endblock %}
+
