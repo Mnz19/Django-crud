@@ -1,11 +1,10 @@
+from django.db.models.query import QuerySet
 from django.views.generic import ListView, CreateView, UpdateView, DeleteView , DetailView
 from django.contrib.auth.mixins import UserPassesTestMixin
-from .models import AgendamentoExame
+from .models import AgendamentoExame , User
 from .forms import AgendamentoExameForm, AdminAgendamentoExameForm
 from django.urls import reverse_lazy
-from django.shortcuts import render
-
-
+from django.db.models import Q
 
 
 class IndexView(ListView):
@@ -19,19 +18,10 @@ class IndexView(ListView):
             query = AgendamentoExame.objects.filter(usuario=self.request.user, ativo=True)
         return query
 
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['is_admin'] = self.request.user.is_superuser
-        return context
-
 class DetailView(DetailView):
     template_name = 'detail.html'
     model = AgendamentoExame
     context_object_name = 'agendamentos'
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['is_admin'] = self.request.user.is_superuser
-        return context
 
 class CreateView(CreateView):
     template_name = 'create.html'
@@ -46,11 +36,7 @@ class CreateView(CreateView):
     
     def form_invalid(self, form):
         return super().form_invalid(form)
-    
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['is_admin'] = self.request.user.is_superuser
-        return context
+
     
 class UpdateView(UpdateView):
     model = AgendamentoExame
@@ -65,10 +51,6 @@ class UpdateView(UpdateView):
     def form_invalid(self, form):
         return self.render_to_response(self.get_context_data(form=form))
     
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['is_admin'] = self.request.user.is_superuser
-        return context
     
 class DeleteView(DeleteView):
     template_name = 'delete.html'
@@ -78,7 +60,6 @@ class DeleteView(DeleteView):
     
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['is_admin'] = self.request.user.is_superuser
         return context
     
 # A view administração
@@ -99,11 +80,7 @@ class AdminIndexView(UserPassesTestMixin, ListView):
         if filtro_data:
             queryset = queryset.filter(data=filtro_data)
         return queryset
-    
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['is_admin'] = self.request.user.is_superuser
-        return context
+
 
 class AdminUpdateView(UserPassesTestMixin, UpdateView):
     template_name = 'adm/admin_update.html'
@@ -124,7 +101,6 @@ class AdminUpdateView(UserPassesTestMixin, UpdateView):
     
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['is_admin'] = self.request.user.is_superuser
         return context
     
 class AdminDeleteView(UserPassesTestMixin, DeleteView):
@@ -138,5 +114,62 @@ class AdminDeleteView(UserPassesTestMixin, DeleteView):
     
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['is_admin'] = self.request.user.is_superuser
+        return context
+    
+class AdminUserView(UserPassesTestMixin, ListView):
+    model = User
+    template_name = 'adm/admin_user.html'
+    context_object_name = 'usuarios'
+    
+    def get_queryset(self):
+        query = super().get_queryset().filter(is_superuser=False)
+        filtro_usuario = self.request.GET.get('filtro_usuario')
+        if filtro_usuario:
+            query = query.filter(Q(username__startswith=filtro_usuario))
+        return query.order_by('username')
+    
+    def test_func(self):
+        return self.request.user.is_superuser
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['qtd_agentamentos'] = AgendamentoExame.objects.count() 
+        context['qtd_usuarios'] = User.objects.filter(is_superuser=False).count()
+        context['qtd_user_agentamentos'] = AgendamentoExame.objects.values('usuario').distinct().count()
+        return context
+
+class AdminUserDetailView(UserPassesTestMixin, DetailView):
+    model = User
+    template_name = 'adm/admin_user_detail.html'
+    context_object_name = 'usuario'
+    
+    def test_func(self):
+        return self.request.user.is_superuser
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        filtro_andamento = self.request.GET.get('filtro_andamento')
+        filtro_data = self.request.GET.get('filtro_data')
+        usuario = self.get_object()
+        agendamentos = usuario.agendamentoexame_set.all()
+        if filtro_andamento:
+            agendamentos = agendamentos.filter(andamento=filtro_andamento)
+        if filtro_data:
+            agendamentos = agendamentos.filter(data=filtro_data)
+        context['agendamentos'] = agendamentos 
+        return context
+
+class AdminExameView(UserPassesTestMixin, ListView):
+    model = AgendamentoExame
+    template_name = 'adm/admin_exame.html'
+    context_object_name = 'agendamentos'
+    
+    def get_queryset(self):
+
+    
+    def test_func(self):
+        return self.request.user.is_superuser
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
         return context

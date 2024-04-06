@@ -122,6 +122,8 @@ STATIT_ROOT = os.path.join(BASE_DIR, 'static')
 LOGIN_REDIRECT_URL = 'index'
 LOGIN_REDIRECT_URL = 'index'
 
+ACCOUNT_EMAIL_VERIFICATION = 'none'
+
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field
 
