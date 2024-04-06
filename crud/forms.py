@@ -63,7 +63,7 @@ class AdminExameForm(forms.ModelForm):
 class AdminUserForm(forms.ModelForm):
     class Meta:
         model = User
-        fields = ['username','first_name','last_name','email','is_staff','is_active']
+        fields = ['username','first_name','last_name','email', 'password' ,'is_staff','is_active']
         widgets = {
             'username': forms.TextInput(attrs={'class': 'form-floating'}),
             'first_name': forms.TextInput(attrs={'class': 'form-floating'}),

@@ -3,11 +3,10 @@ from django.contrib.auth.mixins import UserPassesTestMixin
 from .models import AgendamentoExame , User, Exame
 from .forms import AgendamentoExameForm, AdminAgendamentoExameForm, AdminExameForm, AdminUserForm
 from django.urls import reverse_lazy
-from django.db.models import Q, Count
+from django.db.models import Count
 
 
-
-class IndexView(ListView):
+class UserIndexView(ListView):
     template_name = 'index.html'
     model = AgendamentoExame
     context_object_name = 'agendamentos'
@@ -18,12 +17,12 @@ class IndexView(ListView):
             query = AgendamentoExame.objects.filter(usuario=self.request.user, ativo=True)
         return query
 
-class DetailView(DetailView):
+class UserDetailView(DetailView):
     template_name = 'detail.html'
     model = AgendamentoExame
     context_object_name = 'agendamentos'
 
-class CreateView(CreateView):
+class UserCreateView(CreateView):
     template_name = 'create.html'
     model = AgendamentoExame
     form_class = AgendamentoExameForm
@@ -34,11 +33,7 @@ class CreateView(CreateView):
         form.save()
         return super().form_valid(form)
     
-    def form_invalid(self, form):
-        return super().form_invalid(form)
-
-    
-class UpdateView(UpdateView):
+class UserUpdateView(UpdateView):
     model = AgendamentoExame
     form_class = AgendamentoExameForm
     template_name = 'update.html'
@@ -52,7 +47,7 @@ class UpdateView(UpdateView):
         return self.render_to_response(self.get_context_data(form=form))
     
     
-class DeleteView(DeleteView):
+class UserDeleteView(DeleteView):
     template_name = 'delete.html'
     model = AgendamentoExame
     context_object_name = 'agendamentos'
@@ -159,7 +154,6 @@ class AdminUserCreateView(UserPassesTestMixin, CreateView):
 class AdminUserDetailView(UserPassesTestMixin, DetailView):
     model = User
     template_name = 'adm/cliente/detail.html'
-    context_object_name = 'usuario'
     
     def test_func(self):
         return self.request.user.is_superuser
