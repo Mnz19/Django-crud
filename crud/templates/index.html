@@ -1,10 +1,6 @@
 {% extends 'base.html' %}
 
-{% block title %}Home{% endblock %}
-
-{%block extrahead%}
-
-{% endblock %}
+{% block title %}Menu Administrativo{% endblock %}
 
 {% block content %}
 {% if user.is_authenticated and user.is_superuser == False %}
@@ -37,7 +33,7 @@
         </div>
 {% elif user.is_superuser %}
     <div class="container text-center mt-5">
-        <h2>Menu Administrativo</h2>
+        <h1>Menu Administrativo</h1>
         <a href="{% url 'usuarios_admin' %}" class="btn btn-primary button mt-5">Clientes</a>
         <a href="{% url 'admin' %}" class="btn btn-primary button mt-5">Agendamentos</a>
         <a href="{% url 'exames_admin' %}" class="btn btn-primary button mt-5">Exames</a>
