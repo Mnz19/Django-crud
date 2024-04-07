@@ -1,6 +1,6 @@
 {% extends 'base.html' %}
 
-{% block title %}Administração{% endblock %}
+{% block title %}Agendamentos{% endblock %}
 
 {% block content %}
 <main style="text-align: center;">
@@ -29,12 +29,12 @@
         <table class="table">
             <thead>
                 <tr>
-                    <th>Cliente</th>
-                    <th>Exame</th>
-                    <th>Data</th>
-                    <th>Hora</th>
-                    <th>Andamento</th>
-                    <th>Ações</th>
+                    <th><strong>Cliente</strong></th>
+                    <th><strong>Exame</strong></th>
+                    <th><strong>Data</strong></th>
+                    <th><strong>Hora</strong></th>
+                    <th><strong>Andamento</strong></th>
+                    <th><strong>Ações</strong></th>
 
                 </tr>
             </thead>
@@ -53,9 +53,9 @@
                 {% endfor %}
             </tbody>
         </table>
-        <p><strong>Total de Agendamentos</strong>: {{ qtd_agentamentos }}</p>
-        <a class="btn btn-primary mb-4" href="{% url 'usuarios_admin' %}">Gerenciar Clientes</a>
+        <p style="padding-bottom: 3vh;"><strong>Total de Agendamentos</strong>: {{ qtd_agentamentos }}</p>
+        <!-- <a class="btn btn-primary mb-4" href="{% url 'usuarios_admin' %}">Gerenciar Clientes</a>
         <a class="btn btn-primary mb-4" href="{% url 'exames_admin' %}">Gerenciar Exames</a>
-    </div>
+    </div> -->
 </main>
 {% endblock %}

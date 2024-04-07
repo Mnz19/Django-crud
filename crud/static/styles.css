@@ -37,3 +37,10 @@
         font-size: 2vh;
         font-weight: bold;
   }
+
+.createUser{
+  width: 30%;
+}
+.createUser p{
+  display: grid;
+}

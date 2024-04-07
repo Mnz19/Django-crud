@@ -1,0 +1,59 @@
+{% extends 'base.html'%}
+
+{% block title %}Editar Cliente{% endblock %}
+
+{% block content %}
+<style>
+    .create{
+        font-size: 3vh;
+    }
+    .create p{
+    display: grid;
+    justify-items: center;
+    }
+    .helptext{
+        display: none;
+    }
+</style>
+<div class="create">
+    <h1 style="margin: 4vh 0;">Atualizar Cliente: {{ usuario }}</h1>
+    <form id="agendar-form" method="POST">
+        {% csrf_token %}
+        {{form.as_p}}
+        <button type="submit" class="btn btn-primary">Atualizar</button>
+        <a href="{% url 'usuarios_admin' %}" class="btn btn-primary" >Voltar</a>
+        <br>
+    </form>
+    {% if form.errors %}
+        <div class="alert alert-danger mt-3">
+            <strong>Erro!</strong> Por favor, corrija os seguintes erros:
+            <ul>
+            {% for field, error_list in form.errors.items %}
+                {% for error in error_list %}
+                <li>{{ error }}</li>
+                {% endfor %}
+            {% endfor %}
+            </ul>
+        </div>
+    {% endif %}
+</div>
+<script>
+    document.getElementById('agendar-form').addEventListener('submit', function(e) {
+        e.preventDefault(); //
+        Swal.fire({
+            title: 'Confirmação',
+            text: 'Deseja realmente alterar esse usuário?',
+            icon: 'question',
+            showCancelButton: true,
+            confirmButtonText: 'Sim',
+            cancelButtonText: 'Não'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                this.submit();
+            } else {
+                Swal.fire('Alteração Cancelada', '', 'info');
+            }
+        });
+    });
+</script>
+{% endblock %}

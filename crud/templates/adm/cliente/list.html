@@ -1,5 +1,7 @@
 {% extends "base.html" %}
 
+{% block title %}Clientes{% endblock %}
+
 {% block content %}
 <main style="text-align: center;">
     <h1 class="mt-1">Clientes</h1>
@@ -13,9 +15,9 @@
         <table class="table">
             <thead>
                 <tr>
-                    <th>Cliente</th>
-                    <th>Quantidade de Exames</th>
-                    <th>Ações</th>
+                   <th> <strong>Cliente</strong></th>
+                   <th><strong>Quantidade de Exames</strong></th>
+                   <th><strong>Ações</strong></th>
                 </tr>
             </thead>
             <tbody>
@@ -24,7 +26,8 @@
                     <td>{{ usuario|capfirst }}</td>
                     <td>{{ usuario.agendamentoexame_set.count }}</td>
                     <td>
-                        <a href="{% url 'usuario_detail_admin' pk=usuario.pk %}" class="btn btn-primary btn-sm">Vizualizar</a>
+                        <a href="{% url 'usuarios_detail_admin' pk=usuario.pk %}" class="btn btn-primary btn-sm">Vizualizar</a>
+                        <a href="{% url 'usuarios_update_admin' pk=usuario.pk %}" class="btn btn-primary btn-sm">Alterar</a>
                     </tr>
                     {% endfor %}
                     
@@ -34,8 +37,8 @@
             <p><strong>Total de Agendamentos</strong>: {{ qtd_agentamentos }}</p>
             <p><strong>Usuários com Agendamentos</strong>: {{ qtd_user_agentamentos }}</p>
             <a href="{% url 'usuarios_create_admin' %}" class="btn btn-success button mb-4">Adicionar Cliente</a>    
-            <a class="btn btn-primary mb-4" href="{% url 'admin' %}">Gerenciar Agendamentos</a>
-            <a class="btn btn-primary mb-4" href="{% url 'exames_admin' %}">Gerenciar Exames</a>
+            <!-- <a class="btn btn-primary mb-4" href="{% url 'admin' %}">Gerenciar Agendamentos</a>
+            <a class="btn btn-primary mb-4" href="{% url 'exames_admin' %}">Gerenciar Exames</a> -->
         </div>
     </main>
     {% endblock %}

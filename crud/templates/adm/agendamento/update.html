@@ -10,7 +10,8 @@
         {% csrf_token %}
         {{form.as_p}}
         <button type="submit" class="btn btn-primary">Alterar</button>
-        <a href="{% url 'admin' %}" class="btn btn-primary" >Voltar</a>
+        <a href="{% url 'admin' %}" class="btn btn-primary" >Todos agendamentos</a>
+        <a href="{% url 'usuarios_detail_admin' pk=agendamentos.usuario.pk %}" class="btn btn-primary">Agendamentos {{agendamentos.usuario|capfirst}}</a>
         <br>
     </form>
     {% if form.errors %}

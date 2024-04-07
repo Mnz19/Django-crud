@@ -1,7 +1,8 @@
+from django.db.models.query import QuerySet
 from django.views.generic import ListView, CreateView, UpdateView, DeleteView , DetailView
 from django.contrib.auth.mixins import UserPassesTestMixin
 from .models import AgendamentoExame , User, Exame
-from .forms import AgendamentoExameForm, AdminAgendamentoExameForm, AdminExameForm, AdminUserForm
+from .forms import AgendamentoExameForm, AdminAgendamentoExameForm, AdminExameForm, AdminUserForm, AdminUserUpdateForm
 from django.urls import reverse_lazy
 from django.db.models import Count
 
@@ -145,15 +146,16 @@ class AdminUserCreateView(UserPassesTestMixin, CreateView):
         return self.request.user.is_superuser
     
     def form_valid(self, form):
-        form.save()
+        user = form.save(commit=False) 
+        user.set_password(form.cleaned_data['password'])
+        user.save() 
         return super().form_valid(form)
-    
-    def form_invalid(self, form):
-        return super().form_invalid(form)
+
 
 class AdminUserDetailView(UserPassesTestMixin, DetailView):
     model = User
     template_name = 'adm/cliente/detail.html'
+    context_object_name = 'usuario'
     
     def test_func(self):
         return self.request.user.is_superuser
@@ -170,12 +172,43 @@ class AdminUserDetailView(UserPassesTestMixin, DetailView):
             agendamentos = agendamentos.filter(data=filtro_data)
         context['usuario_nome'] = usuario.username.capitalize()
         context['agendamentos'] = agendamentos 
+        context['user'] = self.request.user
         return context
+    
+class AdminUserUpdateView(UserPassesTestMixin, UpdateView):
+    model = User
+    template_name = 'adm/cliente/update.html'
+    form_class = AdminUserUpdateForm
+    context_object_name = 'usuario'
+    success_url = reverse_lazy('usuarios_admin')
+    
+    def test_func(self):
+        return self.request.user.is_superuser
+    
+    def form_valid(self, form):
+        form.save()
+        return super().form_valid(form)
+    
+class AdminUserDeleteView(UserPassesTestMixin, DeleteView):
+    model = User
+    template_name = 'adm/cliente/delete.html'
+    context_object_name = 'usuario'
+    success_url = reverse_lazy('usuarios_admin')
+    
+    def test_func(self):
+        return self.request.user.is_superuser
 
 class AdminExameView(UserPassesTestMixin, ListView):
     model = Exame
     template_name = 'adm/exame/list.html'
     context_object_name = 'exames'
+    
+    def get_queryset(self):
+        query = super().get_queryset()
+        filtro_nome = self.request.GET.get('filtro_nome')
+        if filtro_nome:
+            query = query.filter(nome__startswith=filtro_nome)
+        return query
     
     def test_func(self):
         return self.request.user.is_superuser
@@ -192,9 +225,6 @@ class AdminExameCreateView(UserPassesTestMixin, CreateView):
     def form_valid(self, form):
         form.save()
         return super().form_valid(form)
-    
-    def form_invalid(self, form):
-        return super().form_invalid(form)
 
 class AdminExameDeleteView(UserPassesTestMixin, DeleteView):
     model = Exame

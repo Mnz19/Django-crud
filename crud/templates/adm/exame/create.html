@@ -5,7 +5,7 @@
 {% block content %}
 <div class="create">
     <h1 style="margin: 4vh 0;">Adicionar Exame</h1>
-    <form id="agendar-form" method="POST">
+    <form id="adicionarExame-form" method="POST">
         {% csrf_token %}
         {{form.as_p}}
         <button type="submit" class="btn btn-primary">Adicionar</button>
@@ -26,7 +26,7 @@
     {% endif %}
 </div>
     <script>
-        document.getElementById('agendar-form').addEventListener('submit', function(e) {
+        document.getElementById('adicionarExame-form').addEventListener('submit', function(e) {
             event.preventDefault();
             Swal.fire({
                 title: 'Confirmação',

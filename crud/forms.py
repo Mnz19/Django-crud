@@ -4,10 +4,11 @@ from django.core.exceptions import ValidationError
 from datetime import datetime
 from django.utils import timezone
 from django.contrib.auth.models import User
+from django.forms import ModelForm
 
 
 
-class AgendamentoExameForm(forms.ModelForm):
+class AgendamentoExameForm(ModelForm):
     
     def clean(self):
         data = self.cleaned_data.get('data')
@@ -31,7 +32,7 @@ class AgendamentoExameForm(forms.ModelForm):
             'horario': forms.Select(attrs={'class': 'form-floating'}),
         }
     
-class AdminAgendamentoExameForm(forms.ModelForm):
+class AdminAgendamentoExameForm(ModelForm):
     def clean(self):
         andamento = self.cleaned_data.get('andamento')
         
@@ -52,23 +53,30 @@ class AdminAgendamentoExameForm(forms.ModelForm):
             'resultado': forms.ClearableFileInput(attrs={'class': 'form-floating'}),
         }
 
-class AdminExameForm(forms.ModelForm):
+class AdminExameForm(ModelForm):
     class Meta:
         model = Exame
         fields = ['nome']
         widgets = {
             'nome': forms.TextInput(attrs={'class': 'form-floating'}),
         }
-        
-class AdminUserForm(forms.ModelForm):
+
+class AdminUserForm(ModelForm):
     class Meta:
         model = User
-        fields = ['username','first_name','last_name','email', 'password' ,'is_staff','is_active']
-        widgets = {
-            'username': forms.TextInput(attrs={'class': 'form-floating'}),
-            'first_name': forms.TextInput(attrs={'class': 'form-floating'}),
-            'last_name': forms.TextInput(attrs={'class': 'form-floating'}),
+        fields = ['username','email','password']
+        widgets ={
+            'username': forms.TextInput(attrs={'class': 'form-floating' }),
             'email': forms.EmailInput(attrs={'class': 'form-floating'}),
-            'is_staff': forms.CheckboxInput(attrs={'class': 'form-check-input'}),
+            'password': forms.PasswordInput(attrs={'class': 'form-floating'}),
+        }
+        
+class AdminUserUpdateForm(ModelForm):
+    class Meta:
+        model = User
+        fields = ['username','email', 'is_active']
+        widgets ={
+            'username': forms.TextInput(attrs={'class': 'form-floating' }),
+            'email': forms.EmailInput(attrs={'class': 'form-floating'}),
             'is_active': forms.CheckboxInput(attrs={'class': 'form-check-input'}),
         }
