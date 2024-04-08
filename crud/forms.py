@@ -64,8 +64,10 @@ class AdminExameForm(ModelForm):
 class AdminUserForm(ModelForm):
     class Meta:
         model = User
-        fields = ['username','email','password']
+        fields = ['first_name', 'last_name','username','email','password']
         widgets ={
+            'first_name': forms.TextInput(attrs={'class': 'form-floating' }),
+            'last_name': forms.TextInput(attrs={'class': 'form-floating' }),
             'username': forms.TextInput(attrs={'class': 'form-floating' }),
             'email': forms.EmailInput(attrs={'class': 'form-floating'}),
             'password': forms.PasswordInput(attrs={'class': 'form-floating'}),
@@ -74,8 +76,10 @@ class AdminUserForm(ModelForm):
 class AdminUserUpdateForm(ModelForm):
     class Meta:
         model = User
-        fields = ['username','email', 'is_active']
+        fields = ['first_name', 'last_name','username','email', 'is_active']
         widgets ={
+            'first_name': forms.TextInput(attrs={'class': 'form-floating' }),
+            'last_name': forms.TextInput(attrs={'class': 'form-floating' }),
             'username': forms.TextInput(attrs={'class': 'form-floating' }),
             'email': forms.EmailInput(attrs={'class': 'form-floating'}),
             'is_active': forms.CheckboxInput(attrs={'class': 'form-check-input'}),

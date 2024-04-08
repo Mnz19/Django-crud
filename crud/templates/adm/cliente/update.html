@@ -16,7 +16,11 @@
     }
 </style>
 <div class="create">
-    <h1 style="margin: 4vh 0;">Atualizar Cliente: {{ usuario }}</h1>
+    {% if usuario.first_name %}
+        <h1 style="margin: 4vh 0;">Dados: {{ usuario.first_name }} {{ usuario.last_name }}</h1>
+    {% else %}
+        <h1 style="margin: 4vh 0;">Dados: {{ usuario }}</h1>
+    {% endif %}
     <form id="agendar-form" method="POST">
         {% csrf_token %}
         {{form.as_p}}

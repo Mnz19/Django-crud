@@ -112,10 +112,15 @@ class AdminUserView(UserPassesTestMixin, ListView):
     context_object_name = 'usuarios'
     
     def get_queryset(self):
-        query = super().get_queryset().filter(is_superuser=False)
+        query = super().get_queryset().filter(is_superuser=False, is_active=True)
         filtro_usuario = self.request.GET.get('filtro_usuario')
+        filtro_desativados = self.request.GET.get('filtro_desativados')
         if filtro_usuario:
             query = query.filter(username__startswith=filtro_usuario)
+        if filtro_desativados:
+            query = super().get_queryset().filter(is_superuser=False, is_active=False)
+            if filtro_usuario:
+                query = query.filter(username__startswith=filtro_usuario)
             
         query = query.annotate(qtd_agentamentos=Count('agendamentoexame'))
         return query.order_by('-qtd_agentamentos')
@@ -126,16 +131,15 @@ class AdminUserView(UserPassesTestMixin, ListView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         
-        usuarios = self.get_queryset().annotate(qtd_agentamentos=Count('agendamentoexame'))
+        usuarios = self.get_queryset()
+        qtd_agentamentos_total = usuarios.aggregate(qtd_agentamentos=Count('agendamentoexame'))
         usuarios_com_agendamentos = usuarios.filter(qtd_agentamentos__gt=0)
         
-        qtd_agentamentos_total = self.get_queryset().aggregate(qtd_agentamentos=Count('agendamentoexame'))
-        
         context['qtd_agentamentos'] = qtd_agentamentos_total['qtd_agentamentos']
-        context['qtd_usuarios'] = self.get_queryset().count()
+        context['qtd_usuarios'] = usuarios.count()
         context['qtd_user_agentamentos'] = usuarios_com_agendamentos.count()
         return context
-    
+
 class AdminUserCreateView(UserPassesTestMixin, CreateView):
     model = User
     template_name = 'adm/cliente/create.html'

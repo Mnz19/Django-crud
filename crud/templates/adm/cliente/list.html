@@ -10,6 +10,7 @@
             <div class="input-group">
                 <input class="form-control" type="text" name="filtro_usuario" placeholder="Pesquisar">
                 <button class="btn btn-primary" type="submit">Filtrar</button>
+                <button type="submit" class="btn btn-danger" name="filtro_desativados" value="true">Clientes Desativados</button>
             </div>
         </form>
         <table class="table table-striped">
@@ -36,7 +37,7 @@
             <p><strong>Total de Usuários</strong>: {{ qtd_usuarios }}</p>
             <p><strong>Total de Agendamentos</strong>: {{ qtd_agentamentos }}</p>
             <p><strong>Usuários com Agendamentos</strong>: {{ qtd_user_agentamentos }}</p>
-            <a href="{% url 'usuarios_create_admin' %}" class="btn btn-success button mb-4">Adicionar Cliente</a>    
+            <a href="{% url 'usuarios_create_admin' %}" class="btn btn-success button mb-4">Adicionar Cliente</a>   
             <!-- <a class="btn btn-primary mb-4" href="{% url 'admin' %}">Gerenciar Agendamentos</a>
             <a class="btn btn-primary mb-4" href="{% url 'exames_admin' %}">Gerenciar Exames</a> -->
         </div>
