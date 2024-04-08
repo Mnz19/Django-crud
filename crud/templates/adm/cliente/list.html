@@ -10,7 +10,8 @@
             <div class="input-group">
                 <input class="form-control" type="text" name="filtro_usuario" placeholder="Pesquisar">
                 <button class="btn btn-primary" type="submit">Filtrar</button>
-                <button type="submit" class="btn btn-danger" name="filtro_desativados" value="true">Clientes Desativados</button>
+                <button type="submit" class="btn btn-danger" id="filtro_desativados" name="filtro_desativados" value="true">Filtrar Desativados</button>
+                <button type="submit" class="btn btn-warning" id="filtro_adm" name="filtro_adm" value="true">ADM</button>
             </div>
         </form>
         <table class="table table-striped">
@@ -18,6 +19,7 @@
                 <tr>
                    <th> <strong>Cliente</strong></th>
                    <th><strong>Quantidade de Exames</strong></th>
+                   <th><strong>Ativo</strong></th>
                    <th><strong>Ações</strong></th>
                 </tr>
             </thead>
@@ -26,6 +28,11 @@
                 <tr>
                     <td>{{ usuario|capfirst }}</td>
                     <td>{{ usuario.agendamentoexame_set.count }}</td>
+                    {% if usuario.is_active %}
+                        <td>Sim</td>
+                    {% else %}
+                        <td>Não</td>
+                    {% endif %}
                     <td>
                         <a href="{% url 'usuarios_detail_admin' pk=usuario.pk %}" class="btn btn-primary btn-sm">Vizualizar</a>
                         <a href="{% url 'usuarios_update_admin' pk=usuario.pk %}" class="btn btn-primary btn-sm">Alterar</a>
@@ -38,9 +45,17 @@
             <p><strong>Total de Agendamentos</strong>: {{ qtd_agentamentos }}</p>
             <p><strong>Usuários com Agendamentos</strong>: {{ qtd_user_agentamentos }}</p>
             <a href="{% url 'usuarios_create_admin' %}" class="btn btn-success button mb-4">Adicionar Cliente</a>   
-            <!-- <a class="btn btn-primary mb-4" href="{% url 'admin' %}">Gerenciar Agendamentos</a>
-            <a class="btn btn-primary mb-4" href="{% url 'exames_admin' %}">Gerenciar Exames</a> -->
         </div>
     </main>
+
+    <script>
+        document.getElementById('filtro_desativados').addEventListener('click', function() {
+            var filtro_btn = this;
+            var filtro = filtro_btn.value === 'true' ? 'false' : 'true';
+            filtroDesativadosBtn.classList.toggle('btn-success');
+            filtroDesativadosBtn.classList.toggle('btn-danger');
+            filtroDesativadosBtn.textContent = filtroDesativados === 'true' ? 'Clientes Desativados' : 'Clientes Ativos';
+        });
+    </script>
     {% endblock %}
     

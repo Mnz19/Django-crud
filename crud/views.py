@@ -13,9 +13,18 @@ class UserIndexView(ListView):
     context_object_name = 'agendamentos'
     
     def get_queryset(self):
-        query = 0
+        query = ''
+        filtro_exame = self.request.GET.get('filtro_exame')
+        filtro_andamento = self.request.GET.get('filtro_andamento')
+        filtro_data = self.request.GET.get('filtro_data')
         if self.request.user.is_authenticated:
             query = AgendamentoExame.objects.filter(usuario=self.request.user, ativo=True)
+            if filtro_exame:
+                query = query.filter(exame__nome__startswith=filtro_exame)
+            if filtro_andamento:
+                query = query.filter(andamento=filtro_andamento)
+            if filtro_data:
+                query = query.filter(data=filtro_data)
         return query
 
 class UserDetailView(DetailView):
@@ -115,12 +124,14 @@ class AdminUserView(UserPassesTestMixin, ListView):
         query = super().get_queryset().filter(is_superuser=False, is_active=True)
         filtro_usuario = self.request.GET.get('filtro_usuario')
         filtro_desativados = self.request.GET.get('filtro_desativados')
+        filtro_adm = self.request.GET.get('filtro_adm')
         if filtro_usuario:
             query = query.filter(username__startswith=filtro_usuario)
         if filtro_desativados:
-            query = super().get_queryset().filter(is_superuser=False, is_active=False)
-            if filtro_usuario:
-                query = query.filter(username__startswith=filtro_usuario)
+            query = super().get_queryset().filter(username__startswith=filtro_usuario ,is_active=False)
+        if filtro_adm:
+            query = super().get_queryset().filter(username__startswith=filtro_usuario ,is_superuser=True)
+
             
         query = query.annotate(qtd_agentamentos=Count('agendamentoexame'))
         return query.order_by('-qtd_agentamentos')

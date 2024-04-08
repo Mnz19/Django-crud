@@ -6,6 +6,30 @@
 {% if user.is_authenticated and user.is_superuser == False %}
     <div class="table-container" style="text-align: center;">
         <h2 style="margin-top: 3vh;">Meus Exames</h2>
+        <form class="mb-3" method="get" action="">
+            <div class="form-row" style="display: flex; gap:20px; justify-content: center;">
+                <div class="col-md-4 mb-3">
+                    <label for="filtro_data">Nome do Exame</label>
+                    <input class="form-control" type="text" name="filtro_exame" placeholder="Pesquisar">
+                </div>
+                <div class="col-md-4 mb-3">
+                    <label for="filtro_andamento">Filtrar por Andamento:</label>
+                        <select class="form-control" name="filtro_andamento" id="filtro_andamento">
+                            <option value="">Todos</option>
+                            <option value="Agendado">Agendado</option>
+                            <option value="Realizado">Realizado</option>
+                            <option value="Enviado ao laboratório">Enviado ao laboratório</option>
+                            <option value="Concluído">Concluído</option>
+                            <option value="Cancelado">Cancelado</option>
+                        </select>
+                </div>
+                <div class="col-md-4 mb-3">
+                    <label for="filtro_data">Filtrar por Data:</label>
+                    <input type="date" class="form-control" name="filtro_data" id="filtro_data">
+                </div>
+            </div>
+            <button type="submit" class="btn btn-primary">Filtrar</button>
+        </form>
         <table class="table table-striped">
             <thead class="thead-dark">
                 <tr>
