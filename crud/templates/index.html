@@ -1,6 +1,6 @@
 {% extends 'base.html' %}
 
-{% block title %}Menu Administrativo{% endblock %}
+{% block title %}Menu{% endblock %}
 
 {% block content %}
 {% if user.is_authenticated and user.is_superuser == False %}
@@ -47,6 +47,7 @@
                         <td>{{ agendamento.andamento }}</td>
                         <td>
                             <a href="{% url 'detail' pk=agendamento.pk %}" class="btn btn-primary btn-sm">Detalhes</a>
+                            <!-- <a href="{% url 'update' pk=agendamento.pk %}" class="btn btn-primary btn-sm">Alterar</a> -->
                             <a href="{% url 'delete' pk=agendamento.pk %}" class="btn btn-danger btn-sm">Cancelar</a>
                         </td>
                     </tr>

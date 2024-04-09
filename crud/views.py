@@ -2,7 +2,7 @@ from django.db.models.query import QuerySet
 from django.views.generic import ListView, CreateView, UpdateView, DeleteView , DetailView
 from django.contrib.auth.mixins import UserPassesTestMixin
 from .models import AgendamentoExame , User, Exame
-from .forms import AgendamentoExameForm, AdminAgendamentoExameForm, AdminExameForm, AdminUserForm, AdminUserUpdateForm
+from .forms import AgendamentoExameForm, AdminAgendamentoExameForm, AdminExameForm, AdminUserForm, AdminUserUpdateForm, AgendamentoExameUpdateForm
 from django.urls import reverse_lazy
 from django.db.models import Count
 
@@ -45,7 +45,8 @@ class UserCreateView(CreateView):
     
 class UserUpdateView(UpdateView):
     model = AgendamentoExame
-    form_class = AgendamentoExameForm
+    form_class = AgendamentoExameUpdateForm
+    context_object_name = 'agendamentos'
     template_name = 'update.html'
     success_url = reverse_lazy('index')
 
@@ -55,7 +56,6 @@ class UserUpdateView(UpdateView):
 
     def form_invalid(self, form):
         return self.render_to_response(self.get_context_data(form=form))
-    
     
 class UserDeleteView(DeleteView):
     template_name = 'delete.html'

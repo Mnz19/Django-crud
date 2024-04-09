@@ -27,10 +27,22 @@ class AgendamentoExameForm(ModelForm):
         model = AgendamentoExame
         fields = ['exame','data','horario']
         widgets = {
-            'data': forms.DateInput(format=('%d/%m/%Y'),attrs={'class':'form-floating','type':'date'}),
+            'data': forms.TextInput(attrs={'class': 'form-floating', 'type': 'date'}),
             'exame': forms.Select(attrs={'placeholder': 'Selecione seu exame' ,'class': 'form-floating'},),
             'horario': forms.Select(attrs={'class': 'form-floating'}),
         }
+
+class AgendamentoExameUpdateForm(ModelForm):
+    
+    class Meta:
+        model = AgendamentoExame
+        fields = ['exame','data','horario']
+        widgets = {
+            'data': forms.TextInput(attrs={'class': 'form-floating', 'type': 'date'}),
+            'exame': forms.Select(attrs={'placeholder': 'Selecione seu exame' ,'class': 'form-floating'},),
+            'horario': forms.Select(attrs={'class': 'form-floating'}),
+        }
+
     
 class AdminAgendamentoExameForm(ModelForm):
     def clean(self):
@@ -40,6 +52,11 @@ class AdminAgendamentoExameForm(ModelForm):
             resultado = self.cleaned_data.get('resultado')  
             if not resultado:
                 raise ValidationError('Insira um arquivo de resultado')
+        else:
+            resultado = self.cleaned_data.get('resultado')  
+            if resultado:
+                raise ValidationError('Atualize o andamento para Concluído para inserir um resultado')
+            
         
         return self.cleaned_data
     class Meta:
