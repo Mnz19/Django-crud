@@ -28,7 +28,7 @@ Este é um sistema Django para gerenciar um laboratório médico, permitindo o a
 1. Clone este repositório para o seu ambiente local:
 
     ```bash
-    git clone https://github.com/seu-usuario/sistema-laboratorio-django.git
+    git clone https://github.com/Mnz19/sistema-laboratorio-django.git
     ```
 
 2. Navegue até o diretório do projeto:
@@ -118,7 +118,7 @@ This is a Django system for managing a medical laboratory, allowing for scheduli
 1. Clone this repository to your local environment:
 
     ```bash
-    git clone https://github.com/your-username/lab-management-django.git
+    git clone https://github.com/Mnz19/lab-management-django.git
     ```
 
 2. Navigate to the project directory:
