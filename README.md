@@ -118,7 +118,7 @@ This is a Django system for managing a medical laboratory, allowing for scheduli
 1. Clone this repository to your local environment:
 
     ```bash
-    git clone https://github.com/Mnz19/lab-management-django.git
+    git clone https://github.com/Mnz19/Gerenciamente-de-Laboratorio.git
     ```
 
 2. Navigate to the project directory:
