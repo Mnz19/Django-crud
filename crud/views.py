@@ -1,4 +1,3 @@
-from django.db.models.query import QuerySet
 from django.views.generic import ListView, CreateView, UpdateView, DeleteView , DetailView
 from django.contrib.auth.mixins import UserPassesTestMixin
 from .models import AgendamentoExame , User, Exame

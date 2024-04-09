@@ -4,7 +4,7 @@
 
 {% block content %}
 <div class="create">
-    <h1 style="margin: 4vh 0;">Agendar Exame</h1>
+    <h2 style="margin: 4vh 0;">Agendar Exame</h2>
     <form id="agendar-form" method="POST">
         {% csrf_token %}
         {{form.as_p}}
