@@ -1,6 +1,6 @@
 # Sistema de Gerenciamento de Laboratório em Django
 
-Este é um sistema Django para gerenciar um laboratório médico, permitindo o agendamento de exames, administração de usuários e controle de tipos de exames.
+Este é um sistema Django para gerenciar um laboratório médico, permitindo o agendamento de exames, administração de usuários e controle de tipos de exames. No qual foi num teste para estagiar na V3L0Z.
 
 ## Funcionalidades
 
